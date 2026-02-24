@@ -24,7 +24,7 @@ class Product:
 
 @dataclass
 class Electronics(Product):
-    warranty_period: int
+    warranty_period: str
 
     def get_product_details(self):
         pass
