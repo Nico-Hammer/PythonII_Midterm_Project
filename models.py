@@ -24,7 +24,7 @@ class Product:
 
 @dataclass
 class Electronics(Product):
-    warrany_period: int
+    warranty_period: int
 
     def get_product_details():
         pass
@@ -41,7 +41,7 @@ class Sale:
         self.product = product
         self.quantity = quantity
 
-    def reduct_stock():
+    def reduce_stock():
         pass
 
     def calculate_total_sale():
