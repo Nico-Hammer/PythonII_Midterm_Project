@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS Products(
-     product_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+     product_id INTEGER PRIMARY KEY NOT NULL,
      name TEXT NOT NULL,
      price REAL NOT NULL UNIQUE,
      stock_quantity INTEGER NOT NULL
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS SALES(
     ON UPDATE CASCADE
 );  
 
-INSERT INTO Products (name, price, stock_quantity) VALUES ('Pant', 25.99, 10);
-INSERT INTO Electronics (name, price, stock_quantity, warranty_period) VALUES ("laptop", 26.99, 500,'2 years');
-INSERT INTO Perishables (name, price, stock_quantity, expiration_date) VALUES ("Milk", 3.99, 20, '2024-12-31');
+INSERT INTO Products (product_id,name, price, stock_quantity) VALUES (1,'Pant', 25.99, 10);
+INSERT INTO Electronics (product_id,name, price, stock_quantity, warranty_period) VALUES (2,"laptop", 26.99, 500,'2 years');
+INSERT INTO Perishables (product_id,name, price, stock_quantity, expiration_date) VALUES (3,"Milk", 3.99, 20, '2024-12-31');
 INSERT INTO SALES (product_id, quantity) VALUES (3, 5);
