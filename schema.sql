@@ -11,7 +11,10 @@ CREATE TABLE IF NOT EXISTS Electronics(
     name TEXT NOT NULL,
     price REAL NOT NULL UNIQUE,
     stock_quantity INTEGER NOT NULL,
-    FOREIGN KEY(product_id) REFERENCES Products(product_id)
+    FOREIGN KEY(product_id) REFERENCES Products(product_id),
+    FOREIGN KEY (name) REFERENCES Products(name),
+    FOREIGN KEY (price) REFERENCES Products(price),
+    FOREIGN KEY (stock_quantity) REFERENCES Products(stock_quantity)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
@@ -22,7 +25,10 @@ CREATE TABLE IF NOT EXISTS Perishables(
     name TEXT NOT NULL,
     price REAL NOT NULL UNIQUE,
     stock_quantity INTEGER NOT NULL,
-    FOREIGN KEY(product_id) REFERENCES Products(product_id)
+    FOREIGN KEY(product_id) REFERENCES Products(product_id),
+    FOREIGN KEY (name) REFERENCES Products(name),
+    FOREIGN KEY (price) REFERENCES Products(price),
+    FOREIGN KEY (stock_quantity) REFERENCES Products(stock_quantity)
     ON DELETE CASCADE 
     ON UPDATE CASCADE
 );
