@@ -7,16 +7,16 @@ class Product:
     price: float
     stock_quantity: int
 
-    def update_price(new_price):
+    def update_price(self,new_price):
         pass
 
-    def update_stock(quantity):
+    def update_stock(self,quantity):
         pass
 
-    def is_in_stock(quantity):
+    def is_in_stock(self,quantity):
         pass
 
-    def sell(quantity):
+    def sell(self,quantity):
         pass
 
     def get_product_details():
@@ -26,14 +26,14 @@ class Product:
 class Electronics(Product):
     warranty_period: int
 
-    def get_product_details():
+    def get_product_details(self):
         pass
 
 @dataclass
 class Perishable(Product):
     expiration_date: str
 
-    def get_product_details():
+    def get_product_details(self):
         pass
 
 class Sale:
@@ -41,9 +41,9 @@ class Sale:
         self.product = product
         self.quantity = quantity
 
-    def reduce_stock():
+    def reduce_stock(self,product,quantity):
         pass
 
-    def calculate_total_sale():
+    def calculate_total_sale(self,product,quantity):
         pass
     
