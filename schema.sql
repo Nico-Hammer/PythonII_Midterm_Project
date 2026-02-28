@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS Products(
-     product_id INTEGER PRIMARY KEY NOT NULL,
+     product_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
      name TEXT NOT NULL,
      price REAL NOT NULL,
      stock_quantity INTEGER NOT NULL
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS SALES(
 );  
 
 INSERT INTO Products (product_id,name, price, stock_quantity) VALUES (1,'Pant', 25.99, 10);
-INSERT INTO Products (product_id,name, price, stock_quantity) VALUES (2,"laptop", 26.99, 500);
+INSERT INTO Products (name, price, stock_quantity) VALUES ("laptop", 26.99, 500);
 INSERT INTO Electronics (product_id, warranty_period) VALUES (2, '2 years');
-INSERT INTO Products (product_id,name, price, stock_quantity) VALUES (3,"Milk", 3.99, 20);
+INSERT INTO Products (name, price, stock_quantity) VALUES ("Milk", 3.99, 20);
 INSERT INTO Perishable (product_id, expiration_date) VALUES (3, '2024-12-31');
 INSERT INTO SALES (sale_id,product_id, quantity) VALUES (1,3, 5);
