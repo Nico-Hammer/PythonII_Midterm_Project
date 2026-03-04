@@ -36,14 +36,15 @@ class Perishable(Product):
     def get_product_details(self):
         pass
 
+@dataclass
 class Sale:
-    def __init__(self,product,quantity):
-        self.product = product
-        self.quantity = quantity
+    product_id: int
+    quantity: int
+    sale_date: str
 
-    def reduce_stock(self,product,quantity):
+    def reduce_stock(self,product_id,quantity):
         pass
 
-    def calculate_total_sale(self,product,quantity):
+    def calculate_total_sale(self,product_id,quantity):
         pass
     
