@@ -1,3 +1,4 @@
+import db
 from dataclasses import dataclass
 
 @dataclass
@@ -38,6 +39,7 @@ class Perishable(Product):
 
 @dataclass
 class Sale:
+    sale_id: int
     product_id: int
     quantity: int
     sale_date: str
