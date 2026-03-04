@@ -1,7 +1,4 @@
 class Inventory:
-    pass
-
-class Inventory:
     def __init__(self):
         # Stores products using product_id as key
         self.products = {}
