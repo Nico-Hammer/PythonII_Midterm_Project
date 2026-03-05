@@ -6,6 +6,8 @@ from models import Product, Electronics, Perishable, Sale
 import db
 from datetime import datetime
 
+db.create_db()
+
 inventory = Inventory()
 
 root = tk.Tk()
