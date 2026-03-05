@@ -9,19 +9,25 @@ class Product:
     stock_quantity: int
 
     def update_price(self,new_price):
-        pass
+        db.update_price(self.product_id,new_price)
 
-    def update_stock(self,quantity):
-        pass
+    def update_stock(self,new_quantity):
+        db.update_stock(self.product_id,new_quantity)
 
-    def is_in_stock(self,quantity):
-        pass
+    def is_in_stock(self):
+        stock = db.get_stock(self.product_id)
+        if(stock > 0):
+            return True
+        else:
+            return False
 
     def sell(self,quantity):
-        pass
+        stock = db.get_stock(self.product_id)
+        new_stock = stock - quantity
+        db.update_stock(self.product_id,new_stock)
 
-    def get_product_details():
-        pass
+    def get_product_details(self):
+        return f"-----\nID: {self.product_id}\nName: {self.name}\nPrice: {self.price}\nStock: {self.stock_quantity}\n-----"
 
 @dataclass
 class Electronics(Product):

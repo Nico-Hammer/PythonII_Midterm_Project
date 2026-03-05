@@ -26,6 +26,12 @@ def get_product_by_id(id):
         c.execute("SELECT * FROM Products WHERE product_id = ?",(id,))
         return c.fetchone()
 
+def get_stock(id):
+    with connect() as conn:
+        c = conn.cursor()
+        stock = c.execute("SELECT stock_quantity FROM Products WHERE product_id = ?",(id,))
+        return stock
+
 def add_product(product_id,name,price,stock_quantity):
     with connect() as conn:
         c = conn.cursor()
@@ -105,16 +111,4 @@ def add_sale(sale_id,product_id,quantity,total_sale,sale_date):
     with connect() as conn:
         c = conn.cursor()
         c.execute("INSERT INTO Sales(sale_id,product_id,quantity,total_sale,sale_date) VALUES(?,?,?,?,?)",(sale_id,product_id,quantity,total_sale,sale_date))
-        conn.commit()
-
-def update_sale(sale_id,new_quantity,new_total):
-    with connect() as conn:
-        c = conn.cursor()
-        c.execute("UPDATE Sales SET quantity = ?, total_sale = ? WHERE sale_id = ?",(new_quantity,new_total,sale_id))
-        conn.commit()
-
-def delete_sale(sale_id):
-    with connect() as conn:
-        c = conn.cursor()
-        c.execute("DELETE FROM Sales WHERE sale_id = ?",(sale_id,))
         conn.commit()
