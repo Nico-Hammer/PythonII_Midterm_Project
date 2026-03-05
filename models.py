@@ -1,4 +1,5 @@
 import db
+from datetime import datetime
 from dataclasses import dataclass
 
 @dataclass
@@ -48,11 +49,19 @@ class Sale:
     sale_id: int
     product_id: int
     quantity: int
+    total_sale: float
     sale_date: str
 
     def reduce_stock(self,product_id,quantity):
-        pass
+        stock = db.get_stock(product_id)
+        new_stock = stock - quantity
+        db.update_stock(self.product_id,new_stock)
+        total_sale = self.calculate_total_sale(self.sale_id,product_id,quantity)
+        sale_date  = datetime.today().strftime('%Y-%m-%d')
+        db.add_sale(self.sale_id,product_id,quantity,total_sale,sale_date)
 
     def calculate_total_sale(self,product_id,quantity):
-        pass
+        product_price = db.get_price(product_id)
+        total = product_price * quantity
+        return total
     

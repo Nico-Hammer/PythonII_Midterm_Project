@@ -32,6 +32,12 @@ def get_stock(id):
         stock = c.execute("SELECT stock_quantity FROM Products WHERE product_id = ?",(id,))
         return stock
 
+def get_price(id):
+    with connect() as conn:
+        c = conn.cursor()
+        price = c.execute("SELECT price FROM Products WHERE product_id = ?",(id,))
+        return price
+
 def add_product(product_id,name,price,stock_quantity):
     with connect() as conn:
         c = conn.cursor()
