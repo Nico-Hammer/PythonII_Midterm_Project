@@ -34,14 +34,14 @@ class Electronics(Product):
     warranty_period: str
 
     def get_product_details(self):
-        pass
+        return f"-----\nID: {self.product_id}\nName: {self.name}\nPrice: {self.price}\nStock: {self.stock_quantity}\nWarranty: {self.warranty_period}\n-----"
 
 @dataclass
 class Perishable(Product):
     expiration_date: str
 
     def get_product_details(self):
-        pass
+        return f"-----\nID: {self.product_id}\nName: {self.name}\nPrice: {self.price}\nStock: {self.stock_quantity}\Expiration: {self.expiration_date}\n-----"
 
 @dataclass
 class Sale:
