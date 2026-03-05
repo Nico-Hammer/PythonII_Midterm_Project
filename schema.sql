@@ -31,10 +31,3 @@ CREATE TABLE IF NOT EXISTS Sales(
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );  
-
-INSERT OR REPLACE INTO Products (product_id,name, price, stock_quantity) VALUES (1,'Pant', 25.99, 10);
-INSERT OR REPLACE INTO Products (name, price, stock_quantity) VALUES ("laptop", 26.99, 500);
-INSERT OR REPLACE INTO Electronics (product_id, warranty_period) VALUES (2, '2 years');
-INSERT OR REPLACE INTO Products (name, price, stock_quantity) VALUES ("Milk", 3.99, 20);
-INSERT OR REPLACE INTO Perishable (product_id, expiration_date) VALUES (3, '2024-12-31');
-INSERT OR REPLACE INTO Sales (sale_id,product_id, quantity,total_sale,sale_date) VALUES (1,3, 5,15,'2026-03-03');
