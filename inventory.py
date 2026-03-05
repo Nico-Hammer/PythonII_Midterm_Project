@@ -4,16 +4,16 @@ from models import Product, Electronics, Perishable
 class Inventory:
     # Add a product to the inventory
     def add_product(self, product):
-        db.add_product(
-            product.product_id, 
+        product_id = db.add_product(
+            None,
             product.name, 
             product.price, 
             product.stock_quantity
         )
         if isinstance(product, Electronics):
-            db.add_electronic(product.product_id, product.warranty_period)
+            db.add_electronic(product_id, product.warranty_period)
         elif isinstance(product, Perishable):
-            db.add_perishable(product.product_id, product.expiration_date)
+            db.add_perishable(product_id, product.expiration_date)
 
 
     # Remove a product from the inventory
@@ -33,5 +33,20 @@ class Inventory:
         rows = db.get_all_products()
         products = []
         for row in rows:
-            products.append(Product(row['product_id'], row['name'], row['price'], row['stock_quantity']))
+            product_id = row['product_id']
+            name = row['name']
+            price = row['price']
+            stock_quantity = row['stock_quantity']
+
+            e_row = db.get_electronic_by_id(product_id)
+            if e_row:
+                products.append(Electronics(product_id, name, price, stock_quantity, e_row['warranty_period']))
+                continue
+
+            p_row = db.get_perishable_by_id(product_id)
+            if p_row:
+                products.append(Perishable(product_id, name, price, stock_quantity, p_row['expiration_date']))
+                continue
+            
+            products.append(Product(product_id, name, price, stock_quantity))
         return products

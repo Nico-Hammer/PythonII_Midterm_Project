@@ -41,8 +41,10 @@ def get_price(id):
 def add_product(product_id,name,price,stock_quantity):
     with connect() as conn:
         c = conn.cursor()
-        c.execute("INSERT INTO Products(product_id,name,price,stock_quantity) VALUES(?,?,?,?)",(product_id,name,price,stock_quantity))
+        c.execute("INSERT INTO Products(name,price,stock_quantity) VALUES(?,?,?)",
+                    (name,price,stock_quantity))
         conn.commit()
+        return c.lastrowid
 
 def delete_product(product_id):
     with connect() as conn:
@@ -78,7 +80,7 @@ def get_electronic_by_id(id):
 def add_electronic(product_id,warranty_period):
     with connect() as conn:
         c = conn.cursor()
-        c.execute("INSERT INTO Electonics(product_id,warranty_period) VALUES(?,?)",(product_id,warranty_period))
+        c.execute("INSERT INTO Electronics(product_id,warranty_period) VALUES(?,?)",(product_id,warranty_period))
         conn.commit()
 
 ## PERISHABLE QUERIES ##
