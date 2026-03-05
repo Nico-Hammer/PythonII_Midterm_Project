@@ -1,5 +1,6 @@
 # gui goes here
 import tkinter as tk
+from tkinter import messagebox
 from inventory import Inventory
 from models import Product, Electronics, Perishable, Sale
 import db
@@ -9,7 +10,7 @@ inventory = Inventory()
 
 root = tk.Tk()
 root.title("Inventory Management System")
-root.geometry("500x400")
+root.geometry("500x500")
 
 def add_product():
     add_window = tk.Toplevel(root)
@@ -47,7 +48,7 @@ def add_product():
         expiration_label.pack_forget()
         expiration_entry.pack_forget()
 
-        # Show the correct label + entry
+        # Show the correct label and entry
         if type_var.get() == "Electronics":
             warranty_label.pack()
             warranty_entry.pack()
@@ -63,7 +64,7 @@ def add_product():
             price = float(price_entry.get())
             stock_quantity = int(stock_entry.get())
         except: 
-            print("Invalid input"); 
+            messagebox.showerror("Invalid input", "Invalid price or stock. Please enter numeric values.")
             return
         
         if type_var.get() == "Electronics":
@@ -72,14 +73,14 @@ def add_product():
             try:
                 exp_date = parse_date(expiration_entry.get())
             except ValueError:
-                print("Invalid date format. Use YYYY-MM-DD.")
+                messagebox.showerror("Invalid date", "Invalid date format. Use YYYY-MM-DD.")
                 return
             product = Perishable(None, name, price, stock_quantity, exp_date)
         else:
             product = Product(None, name, price, stock_quantity)
 
         inventory.add_product(product)
-        print(f"Product {name} added successfully")
+        messagebox.showinfo("Product Added", f"Product {name} added successfully")
         add_window.destroy()
 
     tk.Button(add_window, text="Submit", command=submit).pack(pady=10)
@@ -89,21 +90,26 @@ def remove_product():
     remove_window.title("Remove Product")
     remove_window.geometry("300x300")
 
-    tk.Label(remove_window, text="Product ID").pack()
+    tk.Label(remove_window, text="Enter Product ID").pack()
     id_entry = tk.Entry(remove_window)
     id_entry.pack()
 
     def submit():
         try:
             product_id = int(id_entry.get())
+            # Check existence first
+            product = inventory.get_product_by_id(product_id)
+            if product is None:
+                messagebox.showerror("Not found", f"Product with ID {product_id} does not exist.")
+                return
             inventory.remove_product(product_id)
-            print(f"Product {product_id} removed successfully")
+            messagebox.showinfo("Product Removed", f"Product {product_id} removed successfully")
             remove_window.destroy()
 
         except ValueError:
-            print("Invalid input. Enter a valid product ID.")
+            messagebox.showerror("Invalid input", "Enter a valid product ID.")
         except Exception as e:
-            print("Error:", e)
+            messagebox.showerror("Error", str(e))
     
     tk.Button(remove_window, text="Submit", command=submit).pack(pady=10)
 
@@ -131,14 +137,74 @@ def list_products():
             text_area.insert(tk.END, details)
 
 def sell_product():
-    list_window = tk.Toplevel(root)
-    list_window.title("Sell Product")
-    list_window.geometry("300x300")
+    sell_window = tk.Toplevel(root)
+    sell_window.title("Sell Product")
+    sell_window.geometry("300x300")
 
-    tk.Label(list_window, text="Sell Product selected").pack()
+    tk.Label(sell_window, text="Enter Product ID").pack()
+    id_entry = tk.Entry(sell_window)
+    id_entry.pack()
+
+    tk.Label(sell_window, text="Enter amount to be sold").pack()
+    quantity_entry = tk.Entry(sell_window)
+    quantity_entry.pack()
+
+    def submit():
+        try:
+            product_id = int(id_entry.get())
+            quantity = int(quantity_entry.get())
+            product = inventory.get_product_by_id(product_id)
+            if product is None:
+                messagebox.showerror("Not found", "Product not found.")
+                return
+            if not product.is_in_stock():
+                messagebox.showerror("Out of stock", "Product is out of stock.")
+                return
+            if quantity > product.stock_quantity:
+                messagebox.showerror("Insufficient stock", "Not enough stock available.")
+                return
+            product.sell(quantity)
+            messagebox.showinfo("Sale Complete", f"Sold {quantity} of product {product_id}.")
+            sell_window.destroy()
+        except ValueError:
+            messagebox.showerror("Invalid input", "Enter valid product ID and quantity.")
+
+    tk.Button(sell_window, text="Submit", command=submit).pack(pady=10)
+
+
 
 def restock_product():
-    print("Restock Product selected")
+    restock_window = tk.Toplevel(root)
+    restock_window.title("Restock Product")
+    restock_window.geometry("300x300")
+
+    tk.Label(restock_window, text="Enter Product ID").pack()
+    id_entry = tk.Entry(restock_window)
+    id_entry.pack()
+
+    tk.Label(restock_window, text="Enter restock amount").pack()
+    quantity_entry = tk.Entry(restock_window)
+    quantity_entry.pack()
+
+    def submit():
+        try:
+            product_id = int(id_entry.get())
+            quantity = int(quantity_entry.get())
+            product = inventory.get_product_by_id(product_id)
+            if product is None:
+                messagebox.showerror("Not found", "Product not found.")
+                return
+            new_stock = product.stock_quantity + quantity
+            product.update_stock(new_stock)
+            messagebox.showinfo("Restocked", f"Restocked {quantity} of product {product_id}. New stock: {new_stock}.")
+            restock_window.destroy()
+        except ValueError:
+            messagebox.showerror("Invalid input", "Enter valid product ID and quantity.")
+
+    tk.Button(restock_window, text="Submit", command=submit).pack(pady=10)
+
+def exit_app():
+    root.quit()
 
 tk.Button(root, text="Add Product", command=add_product).pack(pady=10)
 tk.Button(root, text="Remove Product", command=remove_product).pack(pady=10)    

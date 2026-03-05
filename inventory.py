@@ -50,3 +50,12 @@ class Inventory:
             
             products.append(Product(product_id, name, price, stock_quantity))
         return products
+    
+    def sell_product(self, product_id, quantity):
+        product = self.get_product_by_id(product_id)
+        if product and product.is_in_stock() and product.stock_quantity >= quantity:
+            product.sell(quantity)
+            return True
+        else:
+            return False
+    

@@ -29,14 +29,28 @@ def get_product_by_id(id):
 def get_stock(id):
     with connect() as conn:
         c = conn.cursor()
-        stock = c.execute("SELECT stock_quantity FROM Products WHERE product_id = ?",(id,))
-        return stock
+        c.execute("SELECT stock_quantity FROM Products WHERE product_id = ?",(id,))
+        stock = c.fetchone()
+        if stock is None:
+            return None
+        # stock is a sqlite3.Row; extract the value
+        # depending on how the row is returned it may be accessible by index or column name
+        try:
+            return stock[0]
+        except Exception:
+            return stock['stock_quantity']
 
 def get_price(id):
     with connect() as conn:
         c = conn.cursor()
-        price = c.execute("SELECT price FROM Products WHERE product_id = ?",(id,))
-        return price
+        c.execute("SELECT price FROM Products WHERE product_id = ?",(id,))
+        row = c.fetchone()
+        if row is None:
+            return None
+        try:
+            return row[0]
+        except Exception:
+            return row['price']
 
 def add_product(product_id,name,price,stock_quantity):
     with connect() as conn:

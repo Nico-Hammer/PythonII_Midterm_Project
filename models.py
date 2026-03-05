@@ -15,6 +15,7 @@ class Product:
     def update_stock(self,new_quantity):
         db.update_stock(self.product_id,new_quantity)
 
+
     def is_in_stock(self):
         stock = db.get_stock(self.product_id)
         if(stock > 0):
